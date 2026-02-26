@@ -6,10 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@netlify/plugin-nextjs": "^5.15.8",
+    "@netlify/plugin-nextjs": "^4.41.6",
     "@supabase/supabase-js": "^2.97.0",
     "framer-motion": "^12.34.3",
     "lucide-react": "^0.575.0",
