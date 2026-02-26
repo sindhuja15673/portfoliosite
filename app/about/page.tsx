@@ -1,146 +1,4 @@
 
-// import Navbar from "../components/Navbar";
-// import Footer from "../components/Footer";
-
-// export default function AboutPage() {
-//   return (
-//     <>
-//       <Navbar />
-
-//       {/* About Section */}
-//       <section className="px-6 sm:px-6 lg:px-6 py-[6.6vmax]">
-//         <div className="max-w-5xl mx-auto">
-
-//           {/* Big Paragraph */}
-//           <p
-//             className="
-//               font-['Helvetica_Neue',Arial,sans-serif]
-//               font-normal
-//               tracking-[-0.04em]
-//               leading-[1.4]
-//               text-[clamp(30px,4.5vw,58px)]
-//               mb-10
-//             "
-//           >
-//             I'm a 16 year old sports photographer capturing emotional game
-//             moments. I make athletes and teams look their best. Available for
-//             games and tournaments.
-//           </p>
-
-//           {/* Small Paragraph */}
-//           <p
-//             className="
-//               max-w-2xl
-//               font-['Helvetica_Neue',Arial,sans-serif]
-//               font-normal
-//               leading-[1.3]
-//               text-[clamp(16px,1.1vw,18px)]
-//             "
-//           >
-//             I'm also a designer, artist, and fashion designer. I started my own
-//             sportswear brand, Vaulted.
-//           </p>
-
-//         </div>
-//       </section>
-
-//       {/* Contact Section */}
-//       <section className="px-6 sm:px-10 lg:px-16 py-[6.6vmax]">
-//         <div className="max-w-2xl mx-auto">
-
-//           <div className="border-t border-black/20 pt-16">
-
-//             {/* Contact Heading */}
-//             <h2
-//               className="
-//                 text-center
-//                 font-['Helvetica_Neue',Arial,sans-serif]
-//                 font-normal
-//                 tracking-[-0.04em]
-//                 leading-[1.4]
-//                 text-[clamp(36px,4.5vw,57px)]
-//                 mb-14
-//               "
-//             >
-//               Contact
-//             </h2>
-
-            
-
-//             <form className="space-y-5">
-
-//               {/* Name Section */}
-//               <div className="space-y-4">
-//                 <p className="text-sm uppercase tracking-[0.08em] text-black/60">
-//                   Name
-//                 </p>
-
-//                 <div className="flex flex-col sm:flex-row gap-[10px]">
-//                   <div className="w-full space-y-1">
-//                     <label className="text-sm">
-//                       First Name <span className="text-black/40">(required)</span>
-//                     </label>
-//                     <input
-//                       type="text"
-//                       required
-//                       className="w-full border-b border-black pb-1 outline-none bg-transparent"
-//                     />
-//                   </div>
-
-//                   <div className="w-full space-y-1">
-//                     <label className="text-sm">
-//                       Last Name <span className="text-black/40">(required)</span>
-//                     </label>
-//                     <input
-//                       type="text"
-//                       required
-//                       className="w-full border-b border-black pb-1 outline-none bg-transparent"
-//                     />
-//                   </div>
-//                 </div>
-//               </div>
-
-//               {/* Email */}
-//               <div className="space-y-1">
-//                 <label className="text-sm">
-//                   Email <span className="text-black/40">(required)</span>
-//                 </label>
-//                 <input
-//                   type="email"
-//                   required
-//                   className="w-full border-b border-black pb-1 outline-none bg-transparent"
-//                 />
-//               </div>
-
-//               {/* Message */}
-//               <div className="space-y-1">
-//                 <label className="text-sm">
-//                   Message <span className="text-black/40">(required)</span>
-//                 </label>
-//                 <textarea
-//                   rows={4}
-//                   required
-//                   className="w-full border-b border-black pb-1 outline-none resize-none bg-transparent"
-//                 />
-//               </div>
-
-//               {/* Button */}
-//               <div className="pt-6 text-center">
-//                 <button className="bg-black text-white px-12 py-3 text-sm tracking-wide transition hover:opacity-80">
-//                   Send
-//                 </button>
-//               </div>
-
-//             </form>
-
-//           </div>
-//         </div>
-//       </section>
-
-//       <Footer />
-//     </>
-//   );
-// }
 
 
 
@@ -177,16 +35,16 @@ export default function AboutPage() {
       <Navbar />
 
       {/* About Section */}
-      <section className="px-6 py-[6.6vmax]">
-        <div className="max-w-5xl mx-auto">
+      <section className="px-6  py-[6.6vmax]">
+        <div className="">
           <p
             className="
               font-['Helvetica_Neue',Arial,sans-serif]
               font-normal
               tracking-[-0.04em]
-              leading-[1.4]
-              text-[clamp(30px,4.5vw,58px)]
-              mb-10
+              leading-[1.2]
+              text-[clamp(30px,4.5vw,56px)]
+              mb-10 
             "
           >
             I'm a 16 year old sports photographer capturing emotional game
@@ -210,8 +68,8 @@ export default function AboutPage() {
 
       {/* Contact Section */}
       <section className="px-6 py-[6.6vmax]">
+          <div className="w-full border-t border-black/20 pt-16">
         <div className="max-w-2xl mx-auto">
-          <div className="border-t border-black/20 pt-16">
 
             <h2
               className="
