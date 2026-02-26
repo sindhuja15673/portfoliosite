@@ -122,31 +122,28 @@ export default function Gallery() {
   //   return () => supabase.removeChannel(channel);
   // }, []);
 useEffect(() => {
-  // Immediately invoked async function
-  (async () => {
-    try {
-      await fetchImages();
-    } catch (err) {
-      console.error("Error fetching images:", err);
-    }
-  })();
+  // Synchronous effect
+  function load() {
+    fetchImages().catch((err) => console.error(err));
+  }
+  load();
 
   const channel = supabase
     .channel("images")
     .on(
       "postgres_changes",
       { event: "*", schema: "public", table: "images" },
-      async () => {
-        try {
-          await fetchImages();
-        } catch (err) {
-          console.error("Error fetching images from subscription:", err);
-        }
+      () => {
+        fetchImages().catch((err) =>
+          console.error("Error fetching images from subscription:", err)
+        );
       }
     )
     .subscribe();
 
-  return () => supabase.removeChannel(channel);
+  return () => {
+    supabase.removeChannel(channel); // Cleanup synchronous
+  };
 }, []);
   const fetchImages = async () => {
     const { data, error } = await supabase
