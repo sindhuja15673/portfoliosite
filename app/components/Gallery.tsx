@@ -106,22 +106,48 @@ export default function Gallery() {
     500: 2,
   };
 
-  useEffect(() => {
-    fetchImages();
+  // useEffect(() => {
+  //   fetchImages();
 
-    // Subscribe to real-time changes in the 'images' table
-    const channel = supabase
-      .channel("images")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "images" },
-        () => fetchImages()
-      )
-      .subscribe();
+  //   // Subscribe to real-time changes in the 'images' table
+  //   const channel = supabase
+  //     .channel("images")
+  //     .on(
+  //       "postgres_changes",
+  //       { event: "*", schema: "public", table: "images" },
+  //       () => fetchImages()
+  //     )
+  //     .subscribe();
 
-    return () => supabase.removeChannel(channel);
-  }, []);
+  //   return () => supabase.removeChannel(channel);
+  // }, []);
+useEffect(() => {
+  // Immediately invoked async function
+  (async () => {
+    try {
+      await fetchImages();
+    } catch (err) {
+      console.error("Error fetching images:", err);
+    }
+  })();
 
+  const channel = supabase
+    .channel("images")
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "images" },
+      async () => {
+        try {
+          await fetchImages();
+        } catch (err) {
+          console.error("Error fetching images from subscription:", err);
+        }
+      }
+    )
+    .subscribe();
+
+  return () => supabase.removeChannel(channel);
+}, []);
   const fetchImages = async () => {
     const { data, error } = await supabase
       .from("images")
