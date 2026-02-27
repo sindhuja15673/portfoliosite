@@ -432,10 +432,13 @@ const filePath = `${folder}/${Date.now()}-${file.name}`;
       let newPosition: number;
       if (desiredPosition) {
         newPosition = desiredPosition > maxPosition ? maxPosition + 1 : desiredPosition;
-
-        const imagesToShift = allImages
-          .filter((img) => img.position >= newPosition)
-          .sort((a, b) => b.position - a.position);
+const safeAllImages = allImages || []; // never null
+const imagesToShift = safeAllImages
+  .filter((img) => img.position >= newPosition)
+  .sort((a, b) => b.position - a.position);
+        // const imagesToShift = allImages
+        //   .filter((img) => img.position >= newPosition)
+        //   .sort((a, b) => b.position - a.position);
 
         for (const img of imagesToShift) {
           await supabase
