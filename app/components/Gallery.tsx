@@ -163,11 +163,17 @@ useEffect(() => {
 
   return (
     <section className="px-6 pt-6 pb-6">
-      <Masonry
+      {/* <Masonry
         breakpointCols={breakpointColumnsObj}
         className="flex gap-1 sm:gap-2 md:gap-3 lg:gap-4"
         columnClassName="space-y-1 sm:space-y-2 md:space-y-3 lg:space-y-4"
-      >
+      > */}
+      <Masonry
+  breakpointCols={breakpointColumnsObj}
+  className="my-masonry-grid w-full"
+  columnClassName="my-masonry-grid_column"
+>
+        {/* {images.slice(0, 8).map((src, index) => ( */}
         {images.map((src, index) => (
           <motion.div
             key={index}

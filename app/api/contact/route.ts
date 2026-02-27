@@ -15,10 +15,19 @@ const resend = new Resend(process.env.RESEND_API_KEY!);
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { firstName, lastName, email, message } = body;
+    const { firstName, lastName, email, phone,
+  matchDate,
+  matchTime,
+  schoolName,
+  opponent,
+  courtNumber, message } = body;
 
     // 1️⃣ Validate fields
-    if (!firstName || !lastName || !email || !message) {
+    if (!firstName || !lastName || !email || !phone ||
+  !matchDate ||
+  !matchTime ||
+  !schoolName ||
+  !opponent || !message ) {
       return NextResponse.json(
         { error: "All fields are required" },
         { status: 400 }
@@ -31,6 +40,12 @@ export async function POST(request: Request) {
         first_name: firstName,
         last_name: lastName,
         email,
+        phone,
+    match_date: matchDate,
+    match_time: matchTime,
+    school_name: schoolName,
+    opponent,
+    court_number: courtNumber || null,
         message,
       },
     ]);
@@ -47,11 +62,19 @@ export async function POST(request: Request) {
     await resend.emails.send({
       from: "Website <onboarding@resend.dev>", // Change after verifying domain
       to: process.env.ADMIN_EMAIL!,
-      subject: "New Contact Form Submission",
+      subject:  "New Match Booking – Action Required 🎾",
       html: `
         <h2>New Contact Form Submission</h2>
         <p><strong>Name:</strong> ${firstName} ${lastName}</p>
         <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+  <hr/>
+  <p><strong>Match Date:</strong> ${matchDate}</p>
+  <p><strong>Match Time:</strong> ${matchTime}</p>
+  <p><strong>School:</strong> ${schoolName}</p>
+  <p><strong>Opponent:</strong> ${opponent}</p>
+  <p><strong>Court Number:</strong> ${courtNumber || "N/A"}</p>
+  <hr/>
         <p><strong>Message:</strong></p>
         <p>${message}</p>
       `,

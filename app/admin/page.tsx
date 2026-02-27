@@ -348,7 +348,22 @@ export default function AdminPage() {
   const heroFileRef = useRef<HTMLInputElement>(null);
 
   const [position, setPosition] = useState<string>("");
+const [headline, setHeadline] = useState("");
+const [subtext, setSubtext] = useState("");
+const [ctaText, setCtaText] = useState("");
+const [banners, setBanners] = useState<any[]>([]);
+const [newBannerText, setNewBannerText] = useState("");
 
+
+const fetchBanners = async () => {
+  const { data, error } = await supabase
+    .from("banners")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) console.error(error);
+  else setBanners(data || []);
+};
   /** -------------------
    * FETCH GALLERY IMAGES
    * ------------------- */
@@ -377,9 +392,35 @@ export default function AdminPage() {
     if (loggedIn) {
       fetchGalleryImages();
       fetchHeroImages();
+      fetchBanners();
     }
   }, [loggedIn]);
 
+
+  const handleAddBanner = async () => {
+  if (!newBannerText.trim()) return alert("Enter banner text");
+
+  const { error } = await supabase
+    .from("banners")
+    .insert([{ text: newBannerText }]);
+
+  if (error) console.error(error);
+  else {
+    setNewBannerText("");
+    fetchBanners();
+  }
+};
+const handleDeleteBanner = async (id: number) => {
+  if (!confirm("Delete this banner?")) return;
+
+  const { error } = await supabase
+    .from("banners")
+    .delete()
+    .eq("id", id);
+
+  if (error) console.error(error);
+  else fetchBanners();
+};
   /** -------------------
    * PASSWORD LOGIN
    * ------------------- */
@@ -450,15 +491,44 @@ const imagesToShift = safeAllImages
         newPosition = maxPosition + 1;
       }
 
-      await supabase.from(table).insert([{
-        url: data.publicUrl,
-        file_path: filePath,
-        position: newPosition
-      }]);
+      // await supabase.from(table).insert([{
+      //   url: data.publicUrl,
+      //   file_path: filePath,
+      //   position: newPosition
+      // }]);
+
+//       await supabase.from(table).insert([{
+//   url: data.publicUrl,
+//   file_path: filePath,
+//   position: newPosition,
+//   headline: headline,
+//   subtext: subtext,
+//   cta_text: ctaText
+// }]);
+
+if (table === "hero_images") {
+  await supabase.from("hero_images").insert([{
+    url: data.publicUrl,
+    file_path: filePath,
+    position: newPosition,
+    headline,
+    subtext,
+    cta_text: ctaText
+  }]);
+} else {
+  await supabase.from("images").insert([{
+    url: data.publicUrl,
+    file_path: filePath,
+    position: newPosition
+  }]);
+}
     }
 
     setUploading(false);
     setPosition("");
+    setHeadline("");
+setSubtext("");
+setCtaText("");
     table === "images" ? fetchGalleryImages() : fetchHeroImages();
   };
 
@@ -519,9 +589,44 @@ const imagesToShift = safeAllImages
   return (
     <div className="min-h-screen px-6 py-16">
       <h1 className="text-3xl mb-6">Admin Panel</h1>
+      {/* ------------------- BANNERS SECTION ------------------- */}
+<h2 className="text-xl mb-2 font-semibold">Current Coverage Banner</h2>
+
+<div className="mb-4">
+  <input
+    type="text"
+    placeholder="Enter banner text..."
+    value={newBannerText}
+    onChange={(e) => setNewBannerText(e.target.value)}
+    className="border-b pb-1 outline-none w-full mb-2"
+  />
+  <button
+    onClick={handleAddBanner}
+    className="px-4 py-2 bg-yellow-500 text-black rounded"
+  >
+    Add Banner
+  </button>
+</div>
+
+<div className="space-y-2 mb-8">
+  {banners.map((banner) => (
+    <div
+      key={banner.id}
+      className="flex justify-between items-center bg-gray-100 p-2 rounded"
+    >
+      <span>{banner.text}</span>
+      <button
+        onClick={() => handleDeleteBanner(banner.id)}
+        className="bg-red-600 text-white px-2 py-1 text-sm rounded"
+      >
+        Delete
+      </button>
+    </div>
+  ))}
+</div>
 
       {/* ------------------- HERO IMAGE UPLOAD ------------------- */}
-      <h2 className="text-xl mb-2 font-semibold">Hero Images</h2>
+      {/* <h2 className="text-xl mb-2 font-semibold">Hero Images</h2>
       <input
         type="file"
         multiple
@@ -535,7 +640,49 @@ const imagesToShift = safeAllImages
         className="mb-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
       >
         Upload Hero Image
-      </button>
+      </button> */}
+      {/* ------------------- HERO IMAGE UPLOAD ------------------- */}
+<h2 className="text-xl mb-2 font-semibold">Hero Images</h2>
+
+<input
+  type="text"
+  placeholder="Headline"
+  value={headline}
+  onChange={(e) => setHeadline(e.target.value)}
+  className="border-b pb-1 outline-none mb-2 w-full"
+/>
+
+<input
+  type="text"
+  placeholder="Subtext"
+  value={subtext}
+  onChange={(e) => setSubtext(e.target.value)}
+  className="border-b pb-1 outline-none mb-2 w-full"
+/>
+
+<input
+  type="text"
+  placeholder="CTA Text"
+  value={ctaText}
+  onChange={(e) => setCtaText(e.target.value)}
+  className="border-b pb-1 outline-none mb-2 w-full"
+/>
+
+<input
+  type="file"
+  multiple
+  accept="image/*"
+  ref={heroFileRef}
+  onChange={(e) => handleUpload(e, "hero_images")}
+  className="hidden"
+/>
+
+<button
+  onClick={() => heroFileRef.current?.click()}
+  className="mb-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+>
+  Upload Hero Image
+</button>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         {heroImages.map((img) => (
           <div key={img.id} className="relative">
