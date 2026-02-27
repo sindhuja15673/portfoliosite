@@ -660,13 +660,13 @@ setCtaText("");
   className="border-b pb-1 outline-none mb-2 w-full"
 />
 
-<input
+{/* <input
   type="text"
   placeholder="CTA Text"
   value={ctaText}
   onChange={(e) => setCtaText(e.target.value)}
   className="border-b pb-1 outline-none mb-2 w-full"
-/>
+/> */}
 
 <input
   type="file"

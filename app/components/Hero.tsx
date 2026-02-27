@@ -4,12 +4,13 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export default function Hero() {
   const [images, setImages] = useState<any[]>([]);
   const [current, setCurrent] = useState(0);
 const currentSlide = images[current];
-
+const router = useRouter();
 const [banner, setBanner] = useState("");
 
 const fetchBanner = async () => {
@@ -116,14 +117,16 @@ useEffect(() => {
         </motion.p>
 
         <motion.button
+        onClick={() => router.push("/about#contact")}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.6 }}
           className="mt-6 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded shadow-lg"
         >
-          {currentSlide.cta_text}
-          {/* Reserve Coverage */}
+          {/* {currentSlide.cta_text} */}
+          Reserve Coverage
         </motion.button>
+        
       </div>
 
       {/* ------------------- NAVIGATION DOTS ------------------- */}
