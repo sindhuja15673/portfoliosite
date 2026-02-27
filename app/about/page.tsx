@@ -13,23 +13,49 @@ export default function AboutPage() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
+  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   setLoading(true);
 
-    const form = e.currentTarget;
-    const formData = new FormData(form);
+  //   const form = e.currentTarget;
+  //   const formData = new FormData(form);
 
-    await fetch("/", {
+  //   await fetch("/", {
+  //     method: "POST",
+  //     body: formData,
+  //   });
+
+  //   setLoading(false);
+  //   setSubmitted(true);
+  //   form.reset();
+  // };
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setLoading(true);
+
+  const form = e.currentTarget;
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData.entries());
+
+  try {
+    const res = await fetch("/api/contact", {
       method: "POST",
-      body: formData,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     });
 
-    setLoading(false);
+    const result = await res.json();
+    if (!res.ok) throw new Error(result.error || "Failed to send email");
+
     setSubmitted(true);
     form.reset();
-  };
-
+  } catch (err: any) {
+    console.error("Email send error:", err.message);
+    alert("Failed to send message: " + err.message);
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <>
       <Navbar />
@@ -67,7 +93,7 @@ export default function AboutPage() {
       </section>
 
       {/* Contact Section */}
-      <section className="px-6 py-[6.6vmax]">
+      <section id="contact" className="px-6 py-[6.6vmax]">
           <div className="w-full border-t border-black/20 pt-16">
         <div className="max-w-2xl mx-auto">
 
