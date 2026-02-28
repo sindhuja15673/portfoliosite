@@ -5,8 +5,15 @@ import { useRouter } from "next/navigation";
 
 export default function Pricing() {
     const router = useRouter();
+
+    const scrollToContact = () => {
+    const el = document.getElementById("contact");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
   return (
-    <section className="py-20 px-6 bg-white text-center">
+    <section id="pricing" className="py-20 px-6 pt-30 bg-white text-center">
       <motion.div
         initial={{ opacity: 0, y: 60 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -45,7 +52,8 @@ export default function Pricing() {
 </motion.div>
 
 <button
-  onClick={() => router.push("/about#contact")}
+  // onClick={() => router.push("/about#contact")}
+  onClick={scrollToContact}
   className="mt-10 bg-green-600 hover:bg-green-700 text-white font-semibold px-10 py-4 rounded-lg text-lg transition"
 >
   Book Now
@@ -64,19 +72,3 @@ export default function Pricing() {
     </section>
   );
 }
-{/* <section className="px-6 py-16 text-center bg-white">
-  <h2 className="text-3xl font-bold mb-6">Pricing</h2>
-  <div className="max-w-md mx-auto p-6 border rounded shadow-lg">
-    <p className="text-xl font-semibold mb-2">$20 – 25 High-Resolution Digital Images</p>
-    <ul className="text-left mb-4 list-disc list-inside">
-      <li>Professional action shots</li>
-      <li>Edited & color-corrected</li>
-      <li>Delivered within 48 hours</li>
-      <li>Private download link</li>
-      <li>No watermark after purchase</li>
-    </ul>
-    <button className="mt-4 px-6 py-3 bg-green-600 text-white rounded hover:bg-green-700">
-      Book Now
-    </button>
-  </div>
-</section> */}

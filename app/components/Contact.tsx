@@ -1,34 +1,13 @@
-
-
-
-
-
 "use client";
 
 import { useState } from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 
-export default function AboutPage() {
+
+export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-
-  //   const form = e.currentTarget;
-  //   const formData = new FormData(form);
-
-  //   await fetch("/", {
-  //     method: "POST",
-  //     body: formData,
-  //   });
-
-  //   setLoading(false);
-  //   setSubmitted(true);
-  //   form.reset();
-  // };
+  
 const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
   setLoading(true);
@@ -58,39 +37,10 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 };
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
 
       {/* About Section */}
-      <section className="px-6  py-[6.6vmax]">
-        <div className="">
-          <p
-            className="
-              font-['Helvetica_Neue',Arial,sans-serif]
-              font-normal
-              tracking-[-0.04em]
-              leading-[1.2]
-              text-[clamp(30px,4.5vw,56px)]
-              mb-10 
-            "
-          >
-            I'm a 16 year old sports photographer capturing emotional game
-            moments. I make athletes and teams look their best. Available for
-            games and tournaments.
-          </p>
-
-          <p
-            className="
-              max-w-2xl
-              font-['Helvetica_Neue',Arial,sans-serif]
-              leading-[1.3]
-              text-[clamp(16px,1.1vw,18px)]
-            "
-          >
-            I'm also a designer, artist, and fashion designer. I started my own
-            sportswear brand, Vaulted.
-          </p>
-        </div>
-      </section>
+    
 
       {/* Contact Section */}
       <section id="contact" className="px-6 py-[6.6vmax]">
@@ -113,7 +63,8 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                 mb-1
               "
             >
-              Book Match Coverage
+              {/* Book Match Coverage */}
+              Reserve your game-day photography.
             </h2>
             <p className="text-center text-black/60 mb-10">
   Reserve your match date below. Limited availability per day.
@@ -263,7 +214,43 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       />
     </div>
   </div>
+{/* Number of Photos */}
+<div className="space-y-1">
+  <label className="text-sm">
+    How many photos do you want?{" "}
+    <span className="text-black/40">(required)</span>
+  </label>
+  {/* <input
+    type="number"
+    name="photoCount"
+    min="1"
+    required
+    className="w-full border-b border-black pb-1 outline-none bg-transparent"
+  /> */}
+  <select
+  name="photoCount"
+  required
+  className="w-full border-b border-black pb-1 outline-none bg-transparent"
+>
+  <option value="">Select package</option>
+  <option value="25">25 Photos – $20</option>
+  <option value="40">40 Photos – $30</option>
+</select>
+</div>
 
+{/* Game Address */}
+<div className="space-y-1">
+  <label className="text-sm">
+    Game Address (Street, City, State, Zipcode){" "}
+    <span className="text-black/40">(required)</span>
+  </label>
+  <textarea
+    name="gameAddress"
+    rows={2}
+    required
+    className="w-full border-b border-black pb-1 outline-none resize-none bg-transparent"
+  />
+</div>
   {/* Court Number */}
   <div className="space-y-1">
     <label className="text-sm">
@@ -309,7 +296,6 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         </div>
       </section>
 
-      <Footer />
     </>
   );
 }

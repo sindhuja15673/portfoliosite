@@ -4,14 +4,21 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { motion, AnimatePresence } from "framer-motion";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 export default function Hero() {
   const [images, setImages] = useState<any[]>([]);
   const [current, setCurrent] = useState(0);
 const currentSlide = images[current];
-const router = useRouter();
+// const router = useRouter();
 const [banner, setBanner] = useState("");
+
+const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
 const fetchBanner = async () => {
   const { data, error } = await supabase
@@ -60,7 +67,7 @@ useEffect(() => {
     );
 
   return (
-    <section className="relative h-screen w-full overflow-hidden">
+    <section id="hero" className="relative h-screen w-full overflow-hidden top-30">
       {/* ------------------- HERO IMAGES ------------------- */}
       <AnimatePresence initial={false}>
         {images.map((img, idx) =>
@@ -79,13 +86,7 @@ useEffect(() => {
       </AnimatePresence>
 
       {/* ------------------- CURRENT COVERAGE BANNER ------------------- */}
-      {/* <div className="absolute top-0 w-full bg-yellow-400 text-black font-bold text-center py-2 z-10"> */}
-        {/* 🎾 This Weekend: State High School Tournament – Limited Player Slots! */}
-        {/* <div className="absolute top-0 w-full bg-yellow-400 overflow-hidden z-10">
-  <div className="whitespace-nowrap animate-marquee text-black font-bold py-2">
-        {banner || "No banner set"}
-      </div>
-      </div> */}
+    
 
       <div className="absolute top-0 w-full bg-yellow-400 overflow-hidden z-10">
   <div className="flex animate-marquee text-black font-bold py-2">
@@ -117,7 +118,8 @@ useEffect(() => {
         </motion.p>
 
         <motion.button
-        onClick={() => router.push("/about#contact")}
+        // onClick={() => router.push("/about#contact")}
+        onClick={() => scrollToSection("contact")}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.6 }}
@@ -144,80 +146,3 @@ useEffect(() => {
     </section>
   );
 }
-
-// // Hero.tsx
-// "use client";
-// import { useState, useEffect } from "react";
-// import { supabase } from "@/lib/supabase";
-// import { motion, AnimatePresence } from "framer-motion";
-
-// export default function Hero() {
-//   const [images, setImages] = useState<any[]>([]);
-//   const [current, setCurrent] = useState(0);
-
-//   const fetchImages = async () => {
-//     const { data, error } = await supabase
-//       .from("hero_images")
-//       .select("url")
-//       .order("position", { ascending: true });
-//     if (error) console.error(error);
-//     else setImages(data || []);
-//   };
-
-//   useEffect(() => {
-//     fetchImages();
-//   }, []);
-
-//   useEffect(() => {
-//     const interval = setInterval(() => {
-//       setCurrent((prev) => (prev + 1) % images.length);
-//     }, 5000);
-//     return () => clearInterval(interval);
-//   }, [images.length]);
-
-//   if (images.length === 0)
-//     return <section className="h-screen flex items-center justify-center">No hero images yet.</section>;
-
-//   return (
-//     <section className="relative h-screen w-full overflow-hidden">
-//       <AnimatePresence initial={false}>
-//         {images.map((img, idx) =>
-//           idx === current ? (
-//             <motion.img
-//               key={img.url}
-//               src={img.url}
-//               initial={{ opacity: 0 }}
-//               animate={{ opacity: 1 }}
-//               exit={{ opacity: 0 }}
-//               transition={{ duration: 1 }}
-//               className="absolute top-0 left-0 w-full h-full object-cover"
-//             />
-//           ) : null
-//         )}
-//       </AnimatePresence>
-
-//       <div className="absolute inset-0 flex items-center justify-center">
-//         <motion.h1
-//           initial={{ opacity: 0, y: 20 }}
-//           animate={{ opacity: 1, y: 0 }}
-//           transition={{ duration: 1 }}
-//           className="text-white text-center text-[clamp(28px,6vw,64px)] font-bold drop-shadow-xl max-w-4xl px-4"
-//         >
-//           Frames of pure competition. Shot on iPhone.
-//         </motion.h1>
-//       </div>
-
-//       <div className="absolute bottom-8 w-full flex justify-center gap-3">
-//         {images.map((_, idx) => (
-//           <button
-//             key={idx}
-//             onClick={() => setCurrent(idx)}
-//             className={`h-3 w-3 rounded-full transition-all duration-300 ${
-//               idx === current ? "bg-white w-6" : "bg-white/50"
-//             }`}
-//           />
-//         ))}
-//       </div>
-//     </section>
-//   );
-// }

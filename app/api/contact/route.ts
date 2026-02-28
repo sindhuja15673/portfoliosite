@@ -20,6 +20,8 @@ export async function POST(request: Request) {
   matchTime,
   schoolName,
   opponent,
+  photoCount,
+  gameAddress,
   courtNumber, message } = body;
 
     // 1️⃣ Validate fields
@@ -27,7 +29,8 @@ export async function POST(request: Request) {
   !matchDate ||
   !matchTime ||
   !schoolName ||
-  !opponent || !message ) {
+  !opponent || !photoCount ||
+  !gameAddress || !message ) {
       return NextResponse.json(
         { error: "All fields are required" },
         { status: 400 }
@@ -45,6 +48,8 @@ export async function POST(request: Request) {
     match_time: matchTime,
     school_name: schoolName,
     opponent,
+    photo_count: photoCount,
+  game_address: gameAddress,
     court_number: courtNumber || null,
         message,
       },
@@ -73,6 +78,9 @@ export async function POST(request: Request) {
   <p><strong>Match Time:</strong> ${matchTime}</p>
   <p><strong>School:</strong> ${schoolName}</p>
   <p><strong>Opponent:</strong> ${opponent}</p>
+  <p><strong>Photo Package:</strong> ${photoCount}</p>
+<p><strong>Game Address:</strong> ${gameAddress}</p>
+<hr/>
   <p><strong>Court Number:</strong> ${courtNumber || "N/A"}</p>
   <hr/>
         <p><strong>Message:</strong></p>
